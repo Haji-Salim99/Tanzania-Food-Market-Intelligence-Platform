@@ -1,0 +1,35 @@
+# Virtual environment
+venv/
+
+# Environment secrets
+.env
+
+# Logs
+logs/
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# GCP credentials
+infra/gcp/*.json
+
+# dbt artifacts
+dbt/target/
+dbt/dbt_packages/
+
+# Test cache
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/

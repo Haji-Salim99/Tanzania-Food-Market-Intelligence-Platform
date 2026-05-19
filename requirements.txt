@@ -1,0 +1,7 @@
+requests
+pandas
+python-dotenv
+loguru
+google-cloud-bigquery
+google-auth
+db-dtypes
