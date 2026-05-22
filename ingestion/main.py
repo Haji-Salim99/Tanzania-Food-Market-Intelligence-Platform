@@ -1,18 +1,21 @@
+from ingestion.extract.food_prices_extractor import extract_sample_food_prices
 from utils.logger import logger
-from ingestion.load.bigquery_loader import create_bigquery_dataset_if_not_exists
 
 
 def main():
     try:
-        logger.info("Starting infrastructure setup...")
+        logger.info("Starting HDX extraction test...")
 
-        create_bigquery_dataset_if_not_exists()
+        records = extract_sample_food_prices()
 
-        logger.info("Infrastructure setup completed successfully.")
+        if records:
+            logger.info(f"First commodity: {records[0]['commodity_name']}")
+
+        logger.info("Extraction test completed successfully.")
 
     except Exception as e:
-        logger.error(f"Infrastructure setup failed: {e}")
-        raise 
+        logger.error(f"Pipeline execution failed: {e}")
+        raise
 
 
 if __name__ == "__main__":
