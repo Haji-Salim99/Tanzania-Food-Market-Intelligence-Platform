@@ -1,20 +1,18 @@
-from ingestion.clients.bigquery_client import get_bigquery_client
 from utils.logger import logger
+from ingestion.load.bigquery_loader import create_bigquery_dataset_if_not_exists
 
 
 def main():
     try:
-        logger.info("Testing BigQuery connection...")
+        logger.info("Starting infrastructure setup...")
 
-        client = get_bigquery_client()
+        create_bigquery_dataset_if_not_exists()
 
-        projects = list(client.list_projects())
-
-        logger.info(f"Accessible projects found: {len(projects)}")
+        logger.info("Infrastructure setup completed successfully.")
 
     except Exception as e:
-        logger.error(f"Pipeline startup failed: {e}")
-        raise
+        logger.error(f"Infrastructure setup failed: {e}")
+        raise 
 
 
 if __name__ == "__main__":
