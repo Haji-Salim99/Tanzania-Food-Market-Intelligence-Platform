@@ -1,16 +1,40 @@
-from ingestion.extract.admin_extractor import get_tanzania_regions
+from config.constants import TANZANIA_REGIONS
+from ingestion.extract.food_prices_extractor import extract_food_prices
 from utils.logger import logger
 
 
 def main():
     try:
-        logger.info("Starting Tanzania region discovery test...")
+        logger.info("Starting regional extraction test...")
 
-        regions = get_tanzania_regions()
+        test_regions = TANZANIA_REGIONS[:2]
 
-        logger.info(f"Sample regions: {regions[:5]}")
+        for region in test_regions:
+            logger.info(f"Processing region: {region}")
 
-        logger.info("Region discovery completed successfully")
+            offset = 0
+            total_region_records = 0
+
+            while True:
+                records = extract_food_prices(
+                    region_name=region,
+                    limit=1000,
+                    offset=offset
+                )
+
+                if not records:
+                    logger.info(f"No more records for {region}")
+                    break
+
+                total_region_records += len(records)
+
+                offset += 1000
+
+            logger.info(
+                f"Completed {region}: {total_region_records} total records"
+            )
+
+        logger.info("Regional extraction test completed successfully.")
 
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")
