@@ -1,17 +1,16 @@
-from ingestion.extract.food_prices_extractor import extract_sample_food_prices
+from ingestion.extract.admin_extractor import get_tanzania_regions
 from utils.logger import logger
 
 
 def main():
     try:
-        logger.info("Starting HDX extraction test...")
+        logger.info("Starting Tanzania region discovery test...")
 
-        records = extract_sample_food_prices()
+        regions = get_tanzania_regions()
 
-        if records:
-            logger.info(f"First commodity: {records[0]['commodity_name']}")
+        logger.info(f"Sample regions: {regions[:5]}")
 
-        logger.info("Extraction test completed successfully.")
+        logger.info("Region discovery completed successfully")
 
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")
