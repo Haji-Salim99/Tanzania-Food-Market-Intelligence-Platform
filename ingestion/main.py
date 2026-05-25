@@ -1,11 +1,17 @@
 from config.constants import TANZANIA_REGIONS
 from ingestion.extract.food_prices_extractor import extract_food_prices
+from ingestion.load.bigquery_loader import (
+    create_bigquery_dataset_if_not_exists,
+    load_food_prices
+)
 from utils.logger import logger
 
 
 def main():
     try:
         logger.info("Starting regional extraction test...")
+
+        create_bigquery_dataset_if_not_exists()
 
         test_regions = TANZANIA_REGIONS[:2]
 
@@ -26,6 +32,8 @@ def main():
                     logger.info(f"No more records for {region}")
                     break
 
+                load_food_prices(records)
+
                 total_region_records += len(records)
 
                 offset += 1000
@@ -34,7 +42,7 @@ def main():
                 f"Completed {region}: {total_region_records} total records"
             )
 
-        logger.info("Regional extraction test completed successfully.")
+        logger.info("Extraction + load pipeline completed successfully.")
 
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")

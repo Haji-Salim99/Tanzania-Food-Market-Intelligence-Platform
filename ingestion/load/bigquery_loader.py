@@ -16,3 +16,37 @@ def create_bigquery_dataset_if_not_exists():
     except Exception as e:
         logger.error(f"Failed to create BigQuery dataset: {e}")
         raise
+
+
+def load_food_prices(records:list):
+ 
+     #Load raw food price records into BigQuery
+
+    try:
+        if not records:
+            logger.info("No records to load into BigQuery.")
+            return
+
+        client = get_bigquery_client()
+
+        table_id = f"{GCP_PROJECT_ID}.{GCP_DATASET}.raw_food_prices"
+        logger.info(f"Loading {len(records)} records into BigQuery table '{table_id}'...")
+
+        job_config = bigquery.LoadJobConfig(
+        write_disposition = bigquery.WriteDisposition.WRITE_APPEND,
+        autodetect=True
+     )
+
+        load_job = client.load_table_from_json(
+        records,
+        table_id,
+        job_config=job_config
+        )
+
+        load_job.result()  # Wait for the job to complete.
+
+        logger.info(f"Successfully loaded {len(records)} records into BigQuery.")
+
+    except Exception as e:
+        logger.error(f"Failed to load records into BigQuery: {e}")
+        raise
