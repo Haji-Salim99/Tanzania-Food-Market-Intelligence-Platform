@@ -12,9 +12,9 @@ def main():
         logger.info("Starting regional extraction test...")
 
         create_bigquery_dataset_if_not_exists()
-        test_regions = TANZANIA_REGIONS[:2]
+        regions_to_process = TANZANIA_REGIONS
 
-        for region in test_regions:
+        for region in regions_to_process:
             logger.info(f"Processing region: {region}")
 
             offset = 0
@@ -33,7 +33,7 @@ def main():
 
                 load_food_prices(
                          records,
-                        overwrite=(region == test_regions[0] and offset == 0)
+                        overwrite=(region == regions_to_process[0] and offset == 0)
                         )
 
                 total_region_records += len(records)
