@@ -18,33 +18,64 @@ def create_bigquery_dataset_if_not_exists():
         raise
 
 
-def load_food_prices(records:list):
- 
-     #Load raw food price records into BigQuery
-
+def load_food_prices(records: list, overwrite: bool = False):
+    """
+    Load raw food price records into BigQuery.
+    """
     try:
         if not records:
-            logger.info("No records to load into BigQuery.")
+            logger.warning("No records provided for loading.")
             return
 
         client = get_bigquery_client()
-        table_id = f"{GCP_PROJECT_ID}.{GCP_DATASET}.raw_food_prices"
-        logger.info(f"Loading {len(records)} records into BigQuery table '{table_id}'...")
 
-        job_config = bigquery.LoadJobConfig(
-        write_disposition = bigquery.WriteDisposition.WRITE_APPEND,
-        autodetect=True
-     )
-        load_job = client.load_table_from_json(
-        records,
-        table_id,
-        job_config=job_config
+        table_id = f"{GCP_PROJECT_ID}.{GCP_DATASET}.raw_food_prices"
+
+        write_mode = (
+            bigquery.WriteDisposition.WRITE_TRUNCATE
+            if overwrite
+            else bigquery.WriteDisposition.WRITE_APPEND
         )
 
-        load_job.result()  # Wait for the job to complete.
+        logger.info(
+            f"Loading {len(records)} records into BigQuery table '{table_id}'..."
+        )
 
-        logger.info(f"Successfully loaded {len(records)} records into BigQuery.")
+        job_config = bigquery.LoadJobConfig(
+            write_disposition=write_mode,
+            autodetect=True
+        )
+
+        load_job = client.load_table_from_json(
+            records,
+            table_id,
+            job_config=job_config
+        )
+
+        load_job.result()
+
+        logger.info(
+            f"Successfully loaded {len(records)} records into BigQuery."
+        )
 
     except Exception as e:
-        logger.error(f"Failed to load records into BigQuery: {e}")
+        logger.error(f"BigQuery load failed: {e}")
         raise
+
+def truncate_raw_food_prices_table():
+        """
+        Remove all existing rows from raw food prices table.
+        """
+        try:
+            client = get_bigquery_client()
+            table_id = f"{GCP_PROJECT_ID}.{GCP_DATASET}.raw_food_prices"
+            query = f"TRUNCATE TABLE `{table_id}`"
+            query_job = client.query(query)
+            query_job.result()  # Wait for the job to complete.
+            logger.info(f"Truncated BigQuery table '{table_id}' successfully.")
+
+        except Exception as e:
+            logger.error(f"Failed to truncate BigQuery table: {e}")
+            raise
+
+  

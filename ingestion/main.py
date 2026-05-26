@@ -2,7 +2,7 @@ from config.constants import TANZANIA_REGIONS
 from ingestion.extract.food_prices_extractor import extract_food_prices
 from ingestion.load.bigquery_loader import (
     create_bigquery_dataset_if_not_exists,
-    load_food_prices
+    load_food_prices,
 )
 from utils.logger import logger
 
@@ -12,7 +12,6 @@ def main():
         logger.info("Starting regional extraction test...")
 
         create_bigquery_dataset_if_not_exists()
-
         test_regions = TANZANIA_REGIONS[:2]
 
         for region in test_regions:
@@ -32,7 +31,10 @@ def main():
                     logger.info(f"No more records for {region}")
                     break
 
-                load_food_prices(records)
+                load_food_prices(
+                         records,
+                        overwrite=(region == test_regions[0] and offset == 0)
+                        )
 
                 total_region_records += len(records)
 
