@@ -2,8 +2,6 @@ from ingestion.clients.hdx_client import get_hdx_food_prices
 from config.settings import COUNTRY_CODE
 from utils.logger import logger
 
-
-
 def extract_food_prices(region_name: str, limit: int = 1000, offset: int = 0):
     """
     Extract sample food prices data from HDX API.

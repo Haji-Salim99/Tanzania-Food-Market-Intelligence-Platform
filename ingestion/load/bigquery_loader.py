@@ -28,7 +28,6 @@ def load_food_prices(records:list):
             return
 
         client = get_bigquery_client()
-
         table_id = f"{GCP_PROJECT_ID}.{GCP_DATASET}.raw_food_prices"
         logger.info(f"Loading {len(records)} records into BigQuery table '{table_id}'...")
 
@@ -36,7 +35,6 @@ def load_food_prices(records:list):
         write_disposition = bigquery.WriteDisposition.WRITE_APPEND,
         autodetect=True
      )
-
         load_job = client.load_table_from_json(
         records,
         table_id,
