@@ -18,7 +18,7 @@ def create_bigquery_dataset_if_not_exists():
         raise
 
 
-def load_food_prices(records: list, overwrite: bool = False):
+def load_food_prices(client, records: list, overwrite: bool = False):
     """
     Load raw food price records into BigQuery.
     """
@@ -26,8 +26,6 @@ def load_food_prices(records: list, overwrite: bool = False):
         if not records:
             logger.warning("No records provided for loading.")
             return
-
-        client = get_bigquery_client()
 
         table_id = f"{GCP_PROJECT_ID}.{GCP_DATASET}.raw_food_prices"
 
