@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: food_market_raw
+    database: tz-food-market-intelligence
+    schema: food_market_raw
+
+    tables:
+      - name: raw_food_prices
