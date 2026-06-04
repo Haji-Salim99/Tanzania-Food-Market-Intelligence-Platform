@@ -2,8 +2,38 @@ version: 2
 
 sources:
   - name: food_market_raw
+    description: "Raw food market data ingested from the HDX HAPI Food Prices API."
+
     database: tz-food-market-intelligence
     schema: food_market_raw
 
     tables:
       - name: raw_food_prices
+
+        description: "Raw historical food price records from HDX covering multiple Tanzanian regions and commodities."
+
+        columns:
+          - name: commodity_name
+            description: "Name of the food commodity."
+            tests:
+              - not_null
+
+          - name: market_name
+            description: "Market where the commodity price was recorded."
+            tests:
+              - not_null
+
+          - name: price
+            description: "Observed commodity price."
+            tests:
+              - not_null
+
+          - name: reference_period_start
+            description: "Start date of the observation period."
+            tests:
+              - not_null
+
+          - name: reference_period_end
+            description: "End date of the observation period."
+            tests:
+              - not_null
