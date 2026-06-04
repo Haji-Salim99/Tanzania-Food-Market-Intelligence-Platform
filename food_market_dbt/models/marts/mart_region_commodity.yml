@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: mart_region_commodity
+    description: "Regional commodity price summary by commodity and unit."
+
+    columns:
+      - name: region_name
+        description: "Region where the commodity prices were recorded."
+        tests:
+          - not_null
+
+      - name: commodity_name
+        description: "Commodity being analyzed."
+        tests:
+          - not_null
+
+      - name: unit
+        description: "Measurement unit used for pricing."
+        tests:
+          - not_null
+
+      - name: avg_price
+        description: "Average commodity price for the region and unit."
+        tests:
+          - not_null
