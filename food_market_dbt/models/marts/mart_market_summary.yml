@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: mart_market_summary
+    description: "Market-level summary of commodity prices including historical statistics and latest available prices."
+
+    columns:
+      - name: market_name
+        description: "Market where commodity prices were collected."
+        tests:
+          - not_null
+
+      - name: region_name
+        description: "Region where the market is located."
+        tests:
+          - not_null
+
+      - name: commodity_name
+        description: "Commodity being sold in the market."
+        tests:
+          - not_null
+
+      - name: commodity_category
+        description: "Category to which the commodity belongs."
+
+      - name: unit
+        description: "Measurement unit used for pricing."
+        tests:
+          - not_null
+
+      - name: total_records
+        description: "Total number of observations used to calculate historical metrics."
+
+      - name: avg_price
+        description: "Average commodity price across the full observation period."
+        tests:
+          - not_null
+
+      - name: min_price
+        description: "Lowest recorded commodity price."
+
+      - name: max_price
+        description: "Highest recorded commodity price."
+
+      - name: first_observation_date
+        description: "Earliest date available for the market-commodity-unit combination."
+
+      - name: last_observation_date
+        description: "Latest date available in the historical data."
+
+      - name: latest_price
+        description: "Most recent observed commodity price."
+        tests:
+          - not_null
+
+      - name: latest_price_date
+        description: "Date associated with the latest observed price."
+        tests:
+          - not_null
