@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: mart_price_trends
+    description: "Monthly commodity price trends by region, commodity, and unit."
+
+    columns:
+      - name: month_start_date
+        description: "First day of the month used for trend aggregation."
+        tests:
+          - not_null
+
+      - name: region_name
+        description: "Region where commodity prices were observed."
+        tests:
+          - not_null
+
+      - name: commodity_name
+        description: "Commodity being tracked."
+        tests:
+          - not_null
+
+      - name: commodity_category
+        description: "Commodity category grouping."
+
+      - name: unit
+        description: "Measurement unit used for pricing."
+        tests:
+          - not_null
+
+      - name: total_records
+        description: "Number of source observations contributing to the monthly aggregation."
+
+      - name: avg_price
+        description: "Average monthly commodity price."
+        tests:
+          - not_null
+
+      - name: min_price
+        description: "Minimum commodity price observed during the month."
+
+      - name: max_price
+        description: "Maximum commodity price observed during the month."
