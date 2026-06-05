@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: mart_region_summary
+    description: "Regional summary of market coverage, commodity diversity, and observation counts."
+
+    columns:
+      - name: region_name
+        description: "Region being summarized."
+        tests:
+          - not_null
+
+      - name: market_count
+        description: "Number of distinct markets within the region."
+        tests:
+          - not_null
+
+      - name: commodity_count
+        description: "Number of distinct commodities observed within the region."
+        tests:
+          - not_null
+
+      - name: total_records
+        description: "Total number of observations collected for the region."
+        tests:
+          - not_null
+
+      - name: first_observation_date
+        description: "Earliest available observation date for the region."
+        tests:
+          - not_null
+
+      - name: last_observation_date
+        description: "Latest available observation date for the region."
+        tests:
+          - not_null
